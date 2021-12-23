@@ -1,0 +1,16 @@
+/* .profile-photo-btn.form-control::file-selector-button {
+	margin: unset;
+} */
+.wrapper {
+	width: 100%;
+	min-height: 85vh;
+}
+.nav-link {
+	color: rgb(219, 206, 206);
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.active {
+	color: #fff;
+}
