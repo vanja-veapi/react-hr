@@ -1,0 +1,6 @@
+.navbar-toggler {
+	background-color: rgb(250, 248, 248);
+}
+.navbar-toggler:focus {
+	color: rgb(15, 94, 211);
+}
