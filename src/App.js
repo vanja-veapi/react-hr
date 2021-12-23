@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav/Nav";
@@ -10,7 +11,7 @@ function App() {
 			<Nav />
 			<Routes>
 				{/* <Route path="/login" element={<Login />} /> */}
-				<Route path="/register" element={<Register />} />
+				<Route path="/join" element={<Register />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</div>

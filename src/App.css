@@ -2,5 +2,39 @@ body {
 	font-family: "Spartan", "sans-serif";
 }
 .container-form {
-	max-width: 372px;
+	background: linear-gradient(180deg, rgb(250, 248, 248) 75%, rgb(158, 157, 157) 100%);
+	border-radius: 10px;
+	box-shadow: 0 0 20px #25252f;
+	margin: 0 auto;
+	max-width: 550px;
+	padding: 40px 70px;
+	margin-top: 35px;
+}
+.wrapper {
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	width: 100%;
+	min-height: 100vh;
+
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(assets/office.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+@media screen and (max-width: 620px) {
+	.container-form {
+		width: 90%;
+	}
+}
+@media screen and (max-width: 480px) {
+	.container-form {
+		padding: 60px 50px;
+	}
+}
+@media screen and (max-width: 340px) {
+	.container-form {
+		padding: 50px 35px;
+	}
 }
