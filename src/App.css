@@ -21,8 +21,7 @@ body {
 	max-width: 550px;
 	padding: 40px 70px;
 	margin-top: 35px;
-
-	max-height: 555px;
+	max-height: 582px;
 }
 .container-form h1 {
 	font-size: 24px;
@@ -44,6 +43,7 @@ body {
 @media screen and (max-width: 480px) {
 	.container-form {
 		padding: 60px 50px;
+		max-height: 640px;
 	}
 }
 @media screen and (max-width: 340px) {

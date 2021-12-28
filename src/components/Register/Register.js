@@ -20,14 +20,13 @@ const Register = () => {
 		if (state.username && state.email && state.password && regExEmail.test(state.email)) {
 			isSuccessRegister = true;
 			setSubmitRegister(false);
-			console.log("Registered...");
 		} else {
 			setSubmitRegister(true);
 		}
 
 		if (isSuccessRegister) {
 			AuthService.register(state);
-			// navigate("/");
+			navigate("/");
 		}
 	};
 	return (
