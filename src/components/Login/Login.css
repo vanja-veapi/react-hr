@@ -4,13 +4,11 @@
 	font-weight: 500;
 	line-height: 24px;
 	margin-bottom: 2px;
-	color: #ffffff;
 }
 .container-form input {
 	width: 100%;
 	margin-bottom: 20px;
 	border-radius: 5px;
-	padding: 5px 20px;
 	border: 1px solid rgb(190, 186, 186);
 	outline: none;
 	font-size: 16px;
@@ -27,10 +25,12 @@
 .container-form input::placeholder {
 	color: #25252f;
 	opacity: 0.4;
+	font-size: 14px;
 }
 .container-form .login-bottom {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	margin-top: 10px;
 }
 .container-form .login-bottom button {
@@ -39,15 +39,16 @@
 	font-weight: 500;
 	border: none;
 	border-radius: 5px;
-	padding: 0 15px;
+	/* padding: 0 15px; */
 }
 .container-form input[button] {
 	font-family: "Spartan" sans-serif !important;
 }
-.container-form .login-bottom p {
-	color: white;
+.container-form .login-bottom a {
+	color: #25252f;
+	text-decoration: none;
 }
-.container-form .login-bottom p:hover {
+.container-form .login-bottom a:hover {
 	cursor: pointer;
 	color: #fcac0d !important;
 }
