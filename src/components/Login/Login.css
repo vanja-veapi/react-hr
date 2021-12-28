@@ -1,101 +1,82 @@
-
-.container-form {
-    max-width: 550px;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    border-radius: 10px;
-    padding: 60px 70px;
-    box-shadow: 5px 8px 20px #25252f;
-    background: linear-gradient(#efe7e7, #5c5c5c);
-}
-.container-form h1 {
-    font-size: 24px;
-    font-weight: 500;
-    margin-top: 0;
-    margin-bottom: 35px;
-    color: #25252f;
-}
 .container-form label {
-    display: block;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    margin-bottom: 2px;
-    color: #ffffff;
+	display: block;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 24px;
+	margin-bottom: 2px;
 }
 .container-form input {
-    width: 100%;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    padding: 5px 20px;
-    border: 1px solid rgb(190, 186, 186);
-    outline: none;
-    font-size: 16px;
-    color: #25252f;
-    font-weight: 500;
-
+	width: 100%;
+	margin-bottom: 20px;
+	border-radius: 5px;
+	border: 1px solid rgb(190, 186, 186);
+	outline: none;
+	font-size: 16px;
+	color: #25252f;
+	font-weight: 500;
 }
 .container-form input:focus {
-    border: 1px solid #FCAC0D;
+	border: 1px solid #fcac0d;
 }
 .container-form input:hover {
-    border: 1px solid #FCAC0D;
-    cursor: pointer;
+	border: 1px solid #fcac0d;
+	cursor: pointer;
 }
 .container-form input::placeholder {
-    color: #25252f;
-    opacity: 0.4;
+	color: #25252f;
+	opacity: 0.4;
+	font-size: 14px;
 }
 .container-form .login-bottom {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 10px;
 }
 .container-form .login-bottom button {
-    background-color: #0D6EFD;
-    color: white;
-    font-weight: 500;
-    border: none;
-    border-radius: 5px;
-    padding: 0 15px;
-    
+	background-color: #0d6efd;
+	color: white;
+	font-weight: 500;
+	border: none;
+	border-radius: 5px;
+	/* padding: 0 15px; */
 }
-.container-form input[button]{
-    font-family: 'Spartan' sans-serif !important;
+.container-form input[button] {
+	font-family: "Spartan" sans-serif !important;
 }
-.container-form .login-bottom p {
-    color: white;
+.container-form .login-bottom a {
+	color: #25252f;
+	text-decoration: none;
 }
-.container-form .login-bottom p:hover{
-    cursor: pointer;
-    color: #FCAC0D !important;
+.container-form .login-bottom a:hover {
+	cursor: pointer;
+	color: #fcac0d !important;
 }
 .container-form .login-bottom button:hover {
-    background-color: #0b5ed7;
-    color: #ffffff;
-} 
+	background-color: #0b5ed7;
+	color: #ffffff;
+}
 @media screen and (max-width: 620px) {
-    .container-form {
-        width: 90%;
-    }
+	.container-form {
+		width: 90%;
+	}
 }
 @media screen and (max-width: 480px) {
-    .container-form {
-        padding: 60px 50px;
-    }
-    .container-form .login-bottom {
-        display: block;
-    }
-    .container-form .login-bottom p {
-        font-size: 16px;
-    }
-    .container-form .login-bottom button {
-        padding: 10px 15px;
-    }
+	.container-form {
+		padding: 60px 50px;
+	}
+	.container-form .login-bottom {
+		display: block;
+	}
+	.container-form .login-bottom p {
+		font-size: 16px;
+	}
+	.container-form .login-bottom button {
+		padding: 10px 15px;
+	}
 }
-@media  screen and (max-width: 340px) {
-    .container-form {
-        padding: 50px 35px;
-    }
+@media screen and (max-width: 340px) {
+	.container-form {
+		padding: 50px 35px;
+	}
 }
