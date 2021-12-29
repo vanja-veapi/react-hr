@@ -1,6 +1,18 @@
 body {
 	font-family: "Spartan", "sans-serif";
 }
+/* }
+body .container-form {
+	background: #141d2f;
+}
+body .login-bottom button,
+.btn-primary {
+	background-color: #1e2a47 !important;
+}
+body h1,
+body h2 {
+	color: red !important;
+} */
 .wrapper {
 	position: absolute;
 	top: 0;
