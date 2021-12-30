@@ -2,15 +2,17 @@ import axios from "axios";
 
 const client = axios.create({ baseURL: process.env.REACT_APP_BASEURL });
 
-/**
- * @param {*} options is object @returns 3 params:
- * URL, Method, Data
- */
 export const request = ({ ...options }) => {
 	client.defaults.headers.common.Authoization = "Bearer token";
-	const onSuccess = (response) => response;
+	const onSuccess = (response) => {
+		return response;
+	};
 	const onError = (error) => {
 		const errorMessages = error.response.data.error.details.errors; //Fetch all messages
+
+		if (errorMessages === undefined) {
+			return alert(error.response.data.error.message);
+		}
 
 		let msgInfo = "";
 		errorMessages.forEach((msg) => {
