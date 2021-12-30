@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import AuthService from "../../services/auth-service";
 
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../store/actions";
+
 const Register = () => {
 	const regExEmail = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const [submitRegister, setSubmitRegister] = useState(false);
@@ -25,8 +29,12 @@ const Register = () => {
 		}
 
 		if (isSuccessRegister) {
-			AuthService.register(state);
-			navigate("/");
+			AuthService.register(state).then((response) => {
+				if (response !== undefined) {
+					dispatch(registerUser(response.data));
+					navigate("/");
+				}
+			});
 		}
 	};
 	return (
