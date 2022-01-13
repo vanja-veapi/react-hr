@@ -1,0 +1,23 @@
+.loading {
+	position: absolute;
+	top: 0;
+	z-index: 99;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	position: fixed;
+}
+.loading > .overlay {
+	max-width: 300px;
+	min-height: 225px;
+	border-radius: 10px;
+	background-position-x: 55%;
+	background-position-y: -71px;
+	font-size: 20px;
+	margin: 20% auto;
+	text-align: center;
+	background-image: url(https://c.tenor.com/tEBoZu1ISJ8AAAAC/spinning-loading.gif);
+}
+.overlay > p:nth-child(1) {
+	margin-top: 150px;
+}

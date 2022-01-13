@@ -1,8 +1,7 @@
-import * as types from "../actions";
+import * as types from "../types";
 
-export default function (state = [], action) {
-	let response = action.response;
-
+export const registerReducer = (state = {}, action) => {
+	let response = action.response !== undefined ? action.response : action.error;
 	switch (action.type) {
 		case types.REGISTER_USER_SUCCESS:
 			return { ...state, response };
@@ -11,4 +10,4 @@ export default function (state = [], action) {
 		default:
 			return state;
 	}
-}
+};

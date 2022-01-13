@@ -1,12 +1,40 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./Register.css";
-import AuthService from "../../services/auth-service";
+import Service from "../../services/service";
+// import { registerSaga } from "../../sagas/authenticationSaga";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, connect } from "react-redux";
+import { registerUser, setInitalLoading } from "../../store/actions";
 
-import { useDispatch } from "react-redux";
-import { registerUser } from "../../store/actions";
+import Loader from "../Loader/Loader";
 
-const Register = () => {
+const Register = (props) => {
+	//Props = Data stored in redux.store
+	const statusCodeProp = props.state.registerReducer.response === undefined ? 0 : props.state.registerReducer.response.status;
+
+	let isLoadedProp = props.state.loadingReducer.loading === undefined ? false : props.state.loadingReducer.loading;
+
+	const info = [];
+	let cssClass = "";
+	if (statusCodeProp === 200) {
+		info.push("You have successfully registered.");
+		cssClass = "alert-success";
+	} else if (props.state.registerReducer.response !== undefined) {
+		if (props.state.registerReducer.response.status >= 400) {
+			cssClass = "alert-danger";
+			if (props.state.registerReducer.response.data.error.details.errors === undefined) {
+				info.push(props.state.registerReducer.response.data.error.message);
+			} else {
+				//MsgInfo is variable when I have for loop
+				let objects = props.state.registerReducer.response.data.error.details.errors;
+
+				objects.forEach((obj) => {
+					info.push(obj.message);
+				});
+			}
+		}
+	}
+
 	const regExEmail = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -18,6 +46,10 @@ const Register = () => {
 		password: "qwe123",
 		photo: "",
 	});
+
+	const handleIsLoadedToggle = () => {
+		dispatch(setInitalLoading(!isLoadedProp));
+	};
 	const onRegister = () => {
 		let isSuccessRegister = false;
 
@@ -29,16 +61,14 @@ const Register = () => {
 		}
 
 		if (isSuccessRegister) {
-			AuthService.register(state).then((response) => {
-				if (response !== undefined) {
-					dispatch(registerUser(response.data));
-					navigate("/");
-				}
-			});
+			handleIsLoadedToggle();
+			dispatch(registerUser(state));
 		}
 	};
 	return (
 		<div className="wrapper d-flex flex-column justify-content-center align-items-center">
+			{/* {statusCodeProp === 200 ? setTimeout(() => navigate("/"), 1500) : false} */}
+			{isLoadedProp && <Loader />}
 			<div className="container container-form">
 				<h1>u-Team register</h1>
 
@@ -71,6 +101,14 @@ const Register = () => {
 					<label htmlFor="">Profile photo</label>
 					<input type="file" name="" onChange={(e) => setState({ ...state, photo: e.target.value })} placeholder="Profile photo" className="profile-photo-btn form-control" />
 				</div>
+
+				<div className={info.length === 0 ? `d-none alert ${cssClass}` : `alert ${cssClass}`}>
+					{info.map((message, index) => (
+						<p className="card-text" key={index}>
+							{message}
+						</p>
+					))}
+				</div>
 				<button type="button" className="btn btn-primary float-end" onClick={onRegister}>
 					Submit
 				</button>
@@ -78,5 +116,9 @@ const Register = () => {
 		</div>
 	);
 };
-
-export default Register;
+const mapState = (state) => {
+	return {
+		state,
+	};
+};
+export default connect(mapState)(Register);

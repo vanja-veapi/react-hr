@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 db.json
-
+store.js
 # testing
 /coverage
 
