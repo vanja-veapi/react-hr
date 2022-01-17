@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import { registerReducer } from "./reducers/registerReducer";
-import { reducer } from "./reducer";
+import { loadingReducer } from "./reducers/loadingReducer";
+import { companyReducer } from "./reducers/companyReducer";
 
 const rootReducer = combineReducers({
-	loadingReducer: reducer,
+	loadingReducer,
 	registerReducer,
+	companyReducer,
 });
 
 export default rootReducer;

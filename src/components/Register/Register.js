@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Register.css";
-import Service from "../../services/service";
-// import { registerSaga } from "../../sagas/authenticationSaga";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, connect } from "react-redux";
-import { registerUser, setInitalLoading } from "../../store/actions";
+import { registerUser, setInitalLoading, requestAllCompany } from "../../store/actions";
 
 import Loader from "../Loader/Loader";
 
 const Register = (props) => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	//Props = Data stored in redux.store
+	useEffect(() => {
+		dispatch(requestAllCompany());
+	}, [dispatch]);
+
+	const companies = props.companies.data?.data;
 	const statusCodeProp = props.state.registerReducer.response === undefined ? 0 : props.state.registerReducer.response.status;
 
 	let isLoadedProp = props.state.loadingReducer.loading === undefined ? false : props.state.loadingReducer.loading;
@@ -25,7 +30,6 @@ const Register = (props) => {
 			if (props.state.registerReducer.response.data.error.details.errors === undefined) {
 				info.push(props.state.registerReducer.response.data.error.message);
 			} else {
-				//MsgInfo is variable when I have for loop
 				let objects = props.state.registerReducer.response.data.error.details.errors;
 
 				objects.forEach((obj) => {
@@ -36,8 +40,6 @@ const Register = (props) => {
 	}
 
 	const regExEmail = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const [submitRegister, setSubmitRegister] = useState(false);
 	const [state, setState] = useState({
@@ -102,6 +104,19 @@ const Register = (props) => {
 					<input type="file" name="" onChange={(e) => setState({ ...state, photo: e.target.value })} placeholder="Profile photo" className="profile-photo-btn form-control" />
 				</div>
 
+				<select id="companies" className="form-select mb-3">
+					{companies !== undefined &&
+						companies.map((company) => {
+							return (
+								<option key={company.id} value={company.id}>
+									{company.attributes.name}
+								</option>
+							);
+						})}
+					<option id="other">Other...</option>
+				</select>
+
+				{/* Alert box */}
 				<div className={info.length === 0 ? `d-none alert ${cssClass}` : `alert ${cssClass}`}>
 					{info.map((message, index) => (
 						<p className="card-text" key={index}>
@@ -119,6 +134,7 @@ const Register = (props) => {
 const mapState = (state) => {
 	return {
 		state,
+		companies: state.companyReducer,
 	};
 };
 export default connect(mapState)(Register);

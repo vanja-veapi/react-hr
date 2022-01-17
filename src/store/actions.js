@@ -12,3 +12,16 @@ export const setInitalLoading = (value) => {
 		value,
 	};
 };
+
+export const requestAllCompany = () => {
+	return {
+		type: types.REQUEST_ALL_COMPANY,
+	};
+};
+
+export const recevieAllCompany = (companies) => {
+	return {
+		type: types.RECEIVE_ALL_COMPANY,
+		payload: companies,
+	};
+};
