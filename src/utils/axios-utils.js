@@ -2,23 +2,22 @@ import axios from "axios";
 
 const client = axios.create({ baseURL: process.env.REACT_APP_BASEURL });
 export const request = ({ ...options }) => {
-	client.defaults.headers.common.Authoization = "Bearer token";
+	console.log(options.headers);
+
+	if (options.headers !== undefined) {
+		// console.log(options.headers["Content-Type"]);
+		client.defaults.headers.post["Content-Type"] = options.headers["Content-Type"];
+	}
+
 	const OnSuccess = (response) => {
+		if (response.data.jwt) {
+			const token = response.data.jwt;
+			client.defaults.headers.common.Authoization = `Bearer ${token}`; //Ubaciti token dinamicno umesto stringa token
+			localStorage.setItem("token", token);
+		}
 		return response;
 	};
 	const onError = (error) => {
-		// const errorMessages = error.response.data.error.details.errors; //Fetch all messages
-
-		// if (errorMessages === undefined) {
-		// 	// alert(error.response.data.error.message);
-		// 	return error.response;
-		// }
-
-		// let msgInfo = "";
-		// errorMessages.forEach((msg) => {
-		// 	msgInfo += msg.message + "\n"; //ForEach used if we have more than one error, than we can render more msg
-		// });
-		// // alert(msgInfo);
 		return error.response;
 	};
 

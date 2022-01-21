@@ -10,3 +10,21 @@
 .active {
 	color: #fff;
 }
+.role-container input {
+	margin-bottom: unset !important;
+	width: unset !important;
+}
+.fa-icons {
+	cursor: pointer;
+	right: 10px;
+	top: 6px;
+}
+.icon {
+	transition: 0.5s;
+}
+.fa-icons > .icon:nth-child(1) {
+	transform: scale(1.4);
+}
+.icon:hover {
+	box-shadow: 1px 1px 10px #fcac0d;
+}

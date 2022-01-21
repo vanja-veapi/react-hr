@@ -3,10 +3,12 @@ import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, connect } from "react-redux";
 import { registerUser, setInitalLoading, requestAllCompany } from "../../store/actions";
-
+import { FaUndo } from "react-icons/fa";
+import { AiOutlineCheck } from "react-icons/ai";
 import Loader from "../Loader/Loader";
 
 const Register = (props) => {
+	// console.log(props.state.registerReducer.response);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	//Props = Data stored in redux.store
@@ -27,13 +29,14 @@ const Register = (props) => {
 	} else if (props.state.registerReducer.response !== undefined) {
 		if (props.state.registerReducer.response.status >= 400) {
 			cssClass = "alert-danger";
-			if (props.state.registerReducer.response.data.error.details.errors === undefined) {
+			if (props.state.registerReducer.response.data.error.details?.errors === undefined) {
 				info.push(props.state.registerReducer.response.data.error.message);
 			} else {
 				let objects = props.state.registerReducer.response.data.error.details.errors;
 
 				objects.forEach((obj) => {
 					info.push(obj.message);
+					console.log(info);
 				});
 			}
 		}
@@ -43,19 +46,30 @@ const Register = (props) => {
 
 	const [submitRegister, setSubmitRegister] = useState(false);
 	const [state, setState] = useState({
-		username: "sbozic",
-		email: "stefan.bozic+5@quantox.com",
+		username: "vanja",
+		email: "vv01@quantox.com",
 		password: "qwe123",
-		photo: "",
+		photo: null,
 	});
-
+	const [isDropdown, setIsDropdown] = useState(true);
 	const handleIsLoadedToggle = () => {
 		dispatch(setInitalLoading(!isLoadedProp));
+	};
+	const handleAddField = (e) => {
+		e.target.value === "other" ? setIsDropdown(false) : setIsDropdown(true);
+	};
+	const handleFileChange = (e) => {
+		const fileUploaded = e.target.files[0];
+
+		const imageData = new FormData();
+		imageData.append("files", fileUploaded);
+
+		setState({ ...state, photo: imageData });
 	};
 	const onRegister = () => {
 		let isSuccessRegister = false;
 
-		if (state.username && state.email && state.password && regExEmail.test(state.email)) {
+		if (state.username && state.email && state.password && regExEmail.test(state.email) && state.photo !== null) {
 			isSuccessRegister = true;
 			setSubmitRegister(false);
 		} else {
@@ -64,6 +78,7 @@ const Register = (props) => {
 
 		if (isSuccessRegister) {
 			handleIsLoadedToggle();
+			console.log(state);
 			dispatch(registerUser(state));
 		}
 	};
@@ -101,20 +116,36 @@ const Register = (props) => {
 				</div>
 				<div className="mt-3 mb-3">
 					<label htmlFor="">Profile photo</label>
-					<input type="file" name="" onChange={(e) => setState({ ...state, photo: e.target.value })} placeholder="Profile photo" className="profile-photo-btn form-control" />
+					{state.photo === null && submitRegister ? <small className="text-danger">Files are empty</small> : ""}
+					<input type="file" name="" onChange={(e) => handleFileChange(e)} placeholder="Profile photo" className="profile-photo-btn form-control" />
 				</div>
-
-				<select id="companies" className="form-select mb-3">
-					{companies !== undefined &&
-						companies.map((company) => {
-							return (
-								<option key={company.id} value={company.id}>
-									{company.attributes.name}
-								</option>
-							);
-						})}
-					<option id="other">Other...</option>
-				</select>
+				<div className="mt-3 mb-3 d-flex role-container">
+					<label>User</label>
+					<input type="radio" name="rold" className="ms-1 role" value={"company_user"} defaultChecked />
+					<label className="ms-4">Admin</label>
+					<input type="radio" name="rold" className="ms-1 role" value={"company_admin"} />
+				</div>
+				<div className="companies-container">
+					<select id="companies" className={isDropdown ? "form-select mb-3" : "d-none"} onChange={handleAddField}>
+						{companies !== undefined &&
+							companies.map((company) => {
+								return (
+									<option key={company.id} value={company.id}>
+										{company.attributes.name}
+									</option>
+								);
+							})}
+						{/* Ako je defaultValue nece se okine other */}
+						<option value="other">Other...</option>
+					</select>
+					<div className={isDropdown ? "d-none" : "d-block company-input position-relative"}>
+						<input type="text" className="form-control" placeholder="Add new company..." />
+						<div className="fa-icons position-absolute">
+							<AiOutlineCheck className="icon text-primary me-3" />
+							<FaUndo className="icon text-primary" onClick={handleAddField} />
+						</div>
+					</div>
+				</div>
 
 				{/* Alert box */}
 				<div className={info.length === 0 ? `d-none alert ${cssClass}` : `alert ${cssClass}`}>
