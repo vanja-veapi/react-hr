@@ -6,11 +6,13 @@ import Login from "./components/Login/Login";
 import Nav from "./components/Nav/Nav";
 import NotFound from "./components/NotFound/NotFound";
 import Register from "./components/Register/Register";
-
+import Sidebar from "./components/Sidebar/Sidebar"
 function App() {
 	return (
 		<div className="App">
+			
 			<Nav />
+			<Sidebar/>
 			<Routes>
 				<Route exact path="/" element={<Login />} />
 				<Route path="/join" element={<Register />} />

@@ -6,8 +6,8 @@ import "./Login.css";
 
 const Login = () => {
 	return (
-		<div className="wrapper d-flex justify-content-center align-items-center">
-			<div className="container-form">
+		<div className="wrapper d-flex flex-column justify-content-center align-items-center">
+			<div className=" container container-form">
 				<h1 className="text-center">uTeam - Login</h1>
 				<div className="text-center">
 					<img src={userIcon} alt="user_icon.png" />
