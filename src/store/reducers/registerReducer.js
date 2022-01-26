@@ -7,6 +7,8 @@ export const registerReducer = (state = {}, action) => {
 			return { ...state, response };
 		case types.REGISTER_USER_ERROR:
 			return { ...state, response };
+		case types.CREATE_NEW_COMPANY:
+			return { ...state, response };
 		default:
 			return state;
 	}
