@@ -25,3 +25,19 @@ export const recevieAllCompany = (companies) => {
 		payload: companies,
 	};
 };
+
+export const login = (email,password) => ({
+	type: types.LOGIN_USER,
+	payload: {
+		email,password
+	}
+});
+
+export const loginError = () => ({
+	type: types.LOGIN_USER_ERROR
+});
+
+export const setLoginUser = (user) => ({
+	type: types.SET_LOGIN_USER,
+	payload: user
+});

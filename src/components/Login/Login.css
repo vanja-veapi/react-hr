@@ -14,7 +14,7 @@
 	font-size: 16px;
 	color: #25252f;
 	font-weight: 500;
-	padding: 7px;
+	padding: 7px 10px;
 }
 .container-form input:focus {
 	border: 1px solid #fcac0d;
@@ -48,11 +48,12 @@
 .container-form .login-bottom a {
 	color: #25252f;
 	text-decoration: none;
+	font-weight: 500;
 }
 .container-form .login-bottom a:hover {
 	cursor: pointer;
-	color: #fcac0d !important;
-	font-weight: 600;
+	color: #0b5ed7 !important;
+	font-weight: 500;
 }
 .container-form .login-bottom button:hover {
 	background-color: #0b5ed7;

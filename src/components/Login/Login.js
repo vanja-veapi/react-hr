@@ -1,10 +1,39 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import userIcon from "../../assets/user_icon.png";
 import Register from "../Register/Register";
 import "./Login.css";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {login,setLoginUser} from "../../store/actions";
+import Loader from "../Loader/Loader";
+
 
 const Login = () => {
+	const validateEmail = (email) => {
+		return String(email)
+		  .toLowerCase()
+		  .match(
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		  );
+	  };
+	const [state,setState] = useState({
+		email:"",
+		password: ""});
+	const [isError, setIsError] = useState(false);
+	const dispatch = useDispatch();
+	
+	
+
+	const onLogin = () => {
+		if (state.email === "" || state.password === "" || state.password.length < 6 || !validateEmail(state.email)) {
+			setIsError(true);
+			return;
+		} else {
+			dispatch(login(state.email,state.password));
+		}
+	}
+
 	return (
 		<div className="wrapper d-flex flex-column justify-content-center align-items-center">
 			<div className=" container container-form">
@@ -14,18 +43,25 @@ const Login = () => {
 				</div>
 				<div className="login-form">
 					<label htmlFor="email">Email</label>
-					<input type="text" name="email" placeholder="Email"></input>
+					{state.email === '' && isError ? (<small className="text-danger">Email is required<br /></small>) : ("")}
+					{state.email.length > 0 && !validateEmail(state.email) && isError ? <small className="text-danger">Email is not in valid format</small> : ""}
+					<input type="text" value={state.email} name="email" placeholder="Email" onChange={(e) => setState({ ...state, email: e.target.value })}></input>
 					<label htmlFor="password">Password</label>
-					<input type="text" name="password" placeholder="Password"></input>
+					{state.password === '' && isError ? (<small className="text-danger">Password is required<br /></small>) : ("")}
+					{state.password.length > 0 && state.password.length < 6 && isError ? (<small className="text-danger">Passwords must be at least 6 characters<br /></small>) : ("")}
+					<input type="text" value={state.password} name="password" placeholder="Password" onChange={(e) => setState({ ...state, password: e.target.value })}></input>
 				</div>
 				<div className="login-bottom">
 					<NavLink to="/join" element={<Register />}>
 						Don't have an account?
 					</NavLink>
-					<button className="btn">Login</button>
+					<button onClick={onLogin} className="btn">Login</button>
 				</div>
 			</div>
 		</div>
 	);
 };
+
+
 export default Login;
+
