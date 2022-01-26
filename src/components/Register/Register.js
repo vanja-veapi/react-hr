@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, connect } from "react-redux";
 import { registerUser, setInitalLoading, requestAllCompany } from "../../store/actions";
 import { FaUndo } from "react-icons/fa";
-import { AiOutlineCheck } from "react-icons/ai";
 import Loader from "../Loader/Loader";
 
 const Register = (props) => {
-	// console.log(props.state.registerReducer.response);
+	// console.log(props.state.registerReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	//Props = Data stored in redux.store
@@ -17,20 +16,30 @@ const Register = (props) => {
 	}, [dispatch]);
 
 	const companies = props.companies.data?.data;
-	const statusCodeProp = props.state.registerReducer.response === undefined ? 0 : props.state.registerReducer.response.status;
+	const statusCode = props.state.registerReducer.response === undefined ? 0 : props.state.registerReducer.response.status;
 
 	let isLoadedProp = props.state.loadingReducer.loading === undefined ? false : props.state.loadingReducer.loading;
 
 	const info = [];
 	let cssClass = "";
-	if (statusCodeProp === 200) {
+	if (statusCode === 200) {
 		info.push("You have successfully registered.");
 		cssClass = "alert-success";
 	} else if (props.state.registerReducer.response !== undefined) {
-		if (props.state.registerReducer.response.status >= 400) {
+		if (statusCode >= 400) {
 			cssClass = "alert-danger";
-			if (props.state.registerReducer.response.data.error.details?.errors === undefined) {
+
+			// .details?.errors
+			if (props.state.registerReducer?.response?.data?.error?.details?.errors === undefined) {
+				// console.log(props.state.registerReducer.response.data.error.message); //Ovako mi vraca za createNewCompany;
 				info.push(props.state.registerReducer.response.data.error.message);
+
+				// info.push(props.state.registerReducer.response.details.data.error.message)
+				// if (props.state.registerReducer.response.status === 400) {
+				// 	info.push(props.state.registerReducer.response.data.error.message);
+				// } else {
+				// 	info.push(props.state.registerReducer.response.statusText);
+				// }
 			} else {
 				let objects = props.state.registerReducer.response.data.error.details.errors;
 
@@ -46,30 +55,47 @@ const Register = (props) => {
 
 	const [submitRegister, setSubmitRegister] = useState(false);
 	const [state, setState] = useState({
-		username: "vanja",
-		email: "vv01@quantox.com",
-		password: "qwe123",
+		username: "",
+		email: "",
+		password: "",
 		photo: null,
+		role: "company_user",
+		newCompany: "",
 	});
 	const [isDropdown, setIsDropdown] = useState(true);
+	const [isWrongFormat, setIsWrongFormat] = useState(false);
+
 	const handleIsLoadedToggle = () => {
 		dispatch(setInitalLoading(!isLoadedProp));
 	};
 	const handleAddField = (e) => {
-		e.target.value === "other" ? setIsDropdown(false) : setIsDropdown(true);
+		setState({ ...state, newCompany: e.target.value });
+
+		if (e.target.value === "other") {
+			e.target.value = "";
+			setIsDropdown(false);
+		} else {
+			setIsDropdown(true);
+		}
 	};
 	const handleFileChange = (e) => {
 		const fileUploaded = e.target.files[0];
+		const imageTypes = ["image/jpeg", "image/png", "image/gif"];
+
+		//Check if someone want to upload wrong format
+		if (!imageTypes.some((type) => fileUploaded.type === type) && fileUploaded !== null) {
+			return setIsWrongFormat(true);
+		}
+		setIsWrongFormat(false);
 
 		const imageData = new FormData();
 		imageData.append("files", fileUploaded);
-
 		setState({ ...state, photo: imageData });
 	};
 	const onRegister = () => {
-		let isSuccessRegister = false;
+		let isSuccessRegister = true;
 
-		if (state.username && state.email && state.password && regExEmail.test(state.email) && state.photo !== null) {
+		if (state.username && state.email && state.password && regExEmail.test(state.email) && (state.newCompany !== "" || state.newCompany !== "other") && !isWrongFormat) {
 			isSuccessRegister = true;
 			setSubmitRegister(false);
 		} else {
@@ -78,7 +104,6 @@ const Register = (props) => {
 
 		if (isSuccessRegister) {
 			handleIsLoadedToggle();
-			console.log(state);
 			dispatch(registerUser(state));
 		}
 	};
@@ -116,17 +141,27 @@ const Register = (props) => {
 				</div>
 				<div className="mt-3 mb-3">
 					<label htmlFor="">Profile photo</label>
-					{state.photo === null && submitRegister ? <small className="text-danger">Files are empty</small> : ""}
+					{isWrongFormat && submitRegister ? <small className="text-danger">Wrong format, only image!</small> : ""}
 					<input type="file" name="" onChange={(e) => handleFileChange(e)} placeholder="Profile photo" className="profile-photo-btn form-control" />
 				</div>
 				<div className="mt-3 mb-3 d-flex role-container">
 					<label>User</label>
-					<input type="radio" name="rold" className="ms-1 role" value={"company_user"} defaultChecked />
+					<input type="radio" name="rold" className="ms-1 role" value={"company_user"} onChange={(e) => setState({ ...state, role: e.target.value })} defaultChecked />
 					<label className="ms-4">Admin</label>
-					<input type="radio" name="rold" className="ms-1 role" value={"company_admin"} />
+					<input type="radio" name="rold" className="ms-1 role" value={"company_admin"} onChange={(e) => setState({ ...state, role: e.target.value })} />
 				</div>
 				<div className="companies-container">
-					<select id="companies" className={isDropdown ? "form-select mb-3" : "d-none"} onChange={handleAddField}>
+					{(state.newCompany === "" || state.newCompany === "other") && submitRegister ? <small className="text-danger">You can't add an empty company</small> : ""}
+					<select
+						id="companies"
+						className={isDropdown ? "form-select mb-3" : "d-none"}
+						onChange={(e) => {
+							handleAddField(e);
+						}}
+					>
+						<option value="" selected disabled>
+							Choose company
+						</option>
 						{companies !== undefined &&
 							companies.map((company) => {
 								return (
@@ -136,13 +171,15 @@ const Register = (props) => {
 								);
 							})}
 						{/* Ako je defaultValue nece se okine other */}
-						<option value="other">Other...</option>
+						<option value="other">Create company</option>
 					</select>
-					<div className={isDropdown ? "d-none" : "d-block company-input position-relative"}>
-						<input type="text" className="form-control" placeholder="Add new company..." />
-						<div className="fa-icons position-absolute">
-							<AiOutlineCheck className="icon text-primary me-3" />
-							<FaUndo className="icon text-primary" onClick={handleAddField} />
+					<div className={isDropdown ? "d-none" : "d-block"}>
+						{/* pvde */}
+						<div className="company-input position-relative">
+							<input type="text" className="form-control" placeholder="Add new company..." onChange={(e) => setState({ ...state, newCompany: e.target.value })} />
+							<div className="fa-icons position-absolute">
+								<FaUndo className="icon text-primary" onClick={handleAddField} title="Go back" />
+							</div>
 						</div>
 					</div>
 				</div>

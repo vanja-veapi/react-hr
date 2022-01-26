@@ -18,14 +18,26 @@ class Service {
 
 	static createNewProfile = async (data) => {
 		try {
-			console.log(data.name + data.user + data.userRole + data.company + data.profilePhoto);
 			const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/profiles`, {
 				data: data,
 			});
 			console.log(response);
 			return { payload: response.data };
 		} catch (error) {
-			console.log(error);
+			return error;
+		}
+	};
+
+	static createNewCompany = async (data) => {
+		try {
+			const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/companies`, {
+				data: data,
+			});
+			console.log(response);
+			return { payload: response.data };
+		} catch (error) {
+			// .data.error
+			return error.response;
 		}
 	};
 	static uploadImage = async (image) => {

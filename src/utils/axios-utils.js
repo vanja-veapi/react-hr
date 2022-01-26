@@ -2,10 +2,7 @@ import axios from "axios";
 
 const client = axios.create({ baseURL: process.env.REACT_APP_BASEURL });
 export const request = ({ ...options }) => {
-	console.log(options.headers);
-
 	if (options.headers !== undefined) {
-		// console.log(options.headers["Content-Type"]);
 		client.defaults.headers.post["Content-Type"] = options.headers["Content-Type"];
 	}
 
