@@ -1,6 +1,7 @@
 import React from "react";
-import arrowRight from "../../assets/arrow-right.png";
-import styles from "./Sidebar.css";
+import  "./Sidebar.css";
+import{FaChevronRight} from 'react-icons/fa'
+
 
 const SidebarMenu = ()=> {
     return(
@@ -10,23 +11,23 @@ const SidebarMenu = ()=> {
             </div>
             <div className="options">
                 <div className="pending-div">
-                    <img src={arrowRight} alt="arrow-right.png" />
+                    <FaChevronRight className="icons-arow"/>
                     <span>Pending for approval</span>
                 </div>
                 <div className="team">
-                    <img src={arrowRight} alt="arrow-right.png" />
+                    <FaChevronRight className="icons-arow"/>
                     <span>Team</span>
                 </div>
                 <div className="questions">
-                    <img src={arrowRight} alt="arrow-right.png" />
+                <FaChevronRight className="icons-arow"/>
                     <span>Questions</span>
                 </div>
                 <div className="company-info">
-                    <img src={arrowRight} alt="arrow-right.png" />
+                <FaChevronRight className="icons-arow"/>
                     <span>Company Info</span>
                 </div>
                 <div className="my-profile">
-                    <img src={arrowRight} alt="arrow-right.png" />
+                <FaChevronRight className="icons-arow"/>
                     <span>My Profile</span>
                 </div>
             </div>

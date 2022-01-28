@@ -3,24 +3,6 @@ import AuthService from "../services/auth-service";
 import { setInitalLoading,setLoginUser,loginError } from "../store/actions";
 
 
-/*export function* hendlerLoginSaga(action) {
-	try {
-		const response = yield call(AuthService.login, action.email,action.password);
-
-		yield put(setInitalLoading(false));
-		if (response.status === 200) {
-			const user = {
-                jwt: response.data.jwt,
-                user: response.data.user
-            }
-            yield put(setLoginUser(user))
-		}
-		
-	} catch (error) {
-		yield put(loginError(error));
-	}
-}*/
-
 import * as types from "../store/types";
 
 export function* hendlerLoginSaga(object) {

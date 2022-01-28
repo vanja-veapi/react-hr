@@ -1,5 +1,12 @@
-import {SET_LOGIN_USER, LOGIN_USER_ERROR,LOGIN_USER} from "../types";
-import initialStateLogin from "../initState";
+import {SET_LOGIN_USER, LOGIN_USER_ERROR} from "../types";
+
+const  initialStateLogin = {
+    user: {},
+    isLoggedIn: false,
+    isError: false,
+    isLoading: false,
+    response: ""
+}
 
 
 export const loginReducer = (state = initialStateLogin, action) => {

@@ -15,7 +15,7 @@ h2 {
     margin-bottom: 25px;
     margin-top: 25px;
 }
-span {
+.options span {
     margin-left: 10px;
     font-weight: 600;
 }
@@ -26,6 +26,7 @@ span {
 .options div:hover {
     cursor: pointer;
     color: #0D6EFD;
-    filter: invert(50%) sepia(54%) saturate(6934%) hue-rotate(211deg) brightness(90%) contrast(150%);
-    
+}
+.options svg {
+    font-size: 25px;
 }
