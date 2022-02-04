@@ -7,16 +7,15 @@ import { FaUndo } from "react-icons/fa";
 import Loader from "../Loader/Loader";
 
 const Register = (props) => {
-	// console.log(props.state.registerReducer);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	//Props = Data stored in redux.store
+
 	useEffect(() => {
 		dispatch(requestAllCompany());
 	}, [dispatch]);
 
-	const companies = props.companies.data?.data;
-	const statusCode = props.state.registerReducer.response === undefined ? 0 : props.state.registerReducer.response.status;
+	const companies = props.companies?.data?.data;
+	const statusCode = props.state.authReducer.response === undefined ? 0 : props.state.authReducer.response.status;
 
 	let isLoadedProp = props.state.loadingReducer.loading === undefined ? false : props.state.loadingReducer.loading;
 
@@ -25,14 +24,14 @@ const Register = (props) => {
 	if (statusCode === 200) {
 		info.push("You have successfully registered.");
 		cssClass = "alert-success";
-	} else if (props.state.registerReducer.response !== undefined) {
+	} else if (props.state.authReducer.response !== undefined) {
 		if (statusCode >= 400) {
 			cssClass = "alert-danger";
 
 			// .details?.errors
-			if (props.state.registerReducer?.response?.data?.error?.details?.errors === undefined) {
+			if (props.state.authReducer?.response?.data?.error?.details?.errors === undefined) {
 				// console.log(props.state.registerReducer.response.data.error.message); //Ovako mi vraca za createNewCompany;
-				info.push(props.state.registerReducer.response.data.error.message);
+				info.push(props.state.authReducer.response.data.error.message);
 
 				// info.push(props.state.registerReducer.response.details.data.error.message)
 				// if (props.state.registerReducer.response.status === 400) {
@@ -41,7 +40,7 @@ const Register = (props) => {
 				// 	info.push(props.state.registerReducer.response.statusText);
 				// }
 			} else {
-				let objects = props.state.registerReducer.response.data.error.details.errors;
+				let objects = props.state.authReducer.response.data.error.details.errors;
 
 				objects.forEach((obj) => {
 					info.push(obj.message);
@@ -93,7 +92,7 @@ const Register = (props) => {
 		setState({ ...state, photo: imageData });
 	};
 	const onRegister = () => {
-		let isSuccessRegister = true;
+		let isSuccessRegister = false;
 
 		if (state.username && state.email && state.password && regExEmail.test(state.email) && (state.newCompany !== "" || state.newCompany !== "other") && !isWrongFormat) {
 			isSuccessRegister = true;
@@ -109,7 +108,7 @@ const Register = (props) => {
 	};
 	return (
 		<div className="wrapper d-flex flex-column justify-content-center align-items-center">
-			{/* {statusCodeProp === 200 ? setTimeout(() => navigate("/"), 1500) : false} */}
+			{/* {statusCode === 200 ? setTimeout(() => navigate("/my-profile"), 1500) : false} */}
 			{isLoadedProp && <Loader />}
 			<div className="container container-form">
 				<h1>u-Team register</h1>
@@ -146,9 +145,9 @@ const Register = (props) => {
 				</div>
 				<div className="mt-3 mb-3 d-flex role-container">
 					<label>User</label>
-					<input type="radio" name="rold" className="ms-1 role" value={"company_user"} onChange={(e) => setState({ ...state, role: e.target.value })} defaultChecked />
+					<input type="radio" name="role" className="ms-1 role" value={"company_user"} onChange={(e) => setState({ ...state, role: e.target.value })} defaultChecked />
 					<label className="ms-4">Admin</label>
-					<input type="radio" name="rold" className="ms-1 role" value={"company_admin"} onChange={(e) => setState({ ...state, role: e.target.value })} />
+					<input type="radio" name="role" className="ms-1 role" value={"company_admin"} onChange={(e) => setState({ ...state, role: e.target.value })} />
 				</div>
 				<div className="companies-container">
 					{(state.newCompany === "" || state.newCompany === "other") && submitRegister ? <small className="text-danger">You can't add an empty company</small> : ""}
@@ -202,7 +201,7 @@ const Register = (props) => {
 const mapState = (state) => {
 	return {
 		state,
-		companies: state.companyReducer,
+		companies: state.dataReducer,
 	};
 };
 export default connect(mapState)(Register);

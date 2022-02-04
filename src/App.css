@@ -11,7 +11,8 @@ body {
 	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(assets/office.jpg);
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: cover;
+	background-size: auto;
+	/* Was cover */
 }
 .container-form {
 	background: linear-gradient(180deg, rgb(250, 248, 248) 75%, rgb(158, 157, 157) 100%);

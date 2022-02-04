@@ -3,12 +3,11 @@ import { put, call } from "redux-saga/effects";
 import AuthService from "../services/auth-service";
 import Service from "../services/service.js";
 import { setInitalLoading } from "../store/actions";
-
 import * as types from "../store/types";
 
-axios.interceptors.request.use(
+/*axios.interceptors.request.use(
 	(config) => {
-		const token = localStorage.getItem("token");
+		const token = JSON.parse(localStorage.getItem("userData")).token;
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`; // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMxLCJpYXQiOjE2NDMwMjIxNjIsImV4cCI6MTY0MzAyOTM2Mn0.5ps7ojZoAEZJUJsGvNwtFJW6BUmaVpbS-FJQiV79x_k
 		}
@@ -17,7 +16,7 @@ axios.interceptors.request.use(
 	(error) => {
 		console.log(error);
 	}
-);
+);*/
 
 export function* registerSaga({ payload: { email, password, username, photo, role, newCompany } }) {
 	try {
@@ -33,7 +32,8 @@ export function* registerSaga({ payload: { email, password, username, photo, rol
 
 		// If Company string isn't a number, that means we have to create a new company.
 		if (isNaN(newCompany)) {
-			const companyResponse = yield call(Service.createNewCompany, { name: newCompany, slug: newCompany.toLowerCase() });
+			const slug = newCompany.toLowerCase().replaceAll(" ", "-");
+			const companyResponse = yield call(Service.createNewCompany, { name: newCompany, slug: slug });
 			if (companyResponse.status >= 400) {
 				throw companyResponse;
 			}
@@ -48,5 +48,25 @@ export function* registerSaga({ payload: { email, password, username, photo, rol
 		yield call(Service.createNewProfile, { name: username, user: response.data.user.id, userRole: role, company: Number(newCompany), profilePhoto: imageId });
 	} catch (error) {
 		yield put({ type: types.REGISTER_USER_ERROR, error });
+	}
+}
+
+
+export function* hendlerLoginSaga(object) {
+	console.log(object)
+	
+	console.log(object);
+	try {
+		let response = yield call(AuthService.login, object.payload);
+
+		yield put(setInitalLoading(false));
+		if (response.status >= 400) {
+			throw response;
+			
+		}
+		
+		yield put({ type: types.SET_LOGIN_USER, response });
+	} catch (error) {
+		yield put({ type: types.LOGIN_USER_ERROR, error });
 	}
 }

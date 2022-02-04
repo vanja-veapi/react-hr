@@ -1,26 +1,37 @@
-
 .menu {
-    max-width: 300px;
-    color: white;
-    display: inline-block;
-    border-right: 2px solid #ffffff;
-    padding-left: 30px;
-    padding-right: 40px;
-    position: absolute;
-    min-height: 100vh;
+	/* max-width: 300px;\ */
+	color: white;
+	display: inline-block;
+	border-right: 2px solid #ffffff;
+	padding-left: 30px;
+	padding-right: 40px;
+	/* position: absolute; */
+	min-height: 100vh;
+
+	/* Vanja */
+	/* position: fixed; */
+	max-width: 270px;
+	background-color: blue; /* Boja mi samo stoji da bih mogao da vidim slova u divu*/
 }
 
 h2 {
-    font-size: 24px;
-    margin-bottom: 25px;
-    margin-top: 25px;
+	font-size: 24px;
+	margin-bottom: 25px;
+	margin-top: 25px;
 }
+/*   ISTO JE KAO .MENU SPAN PA SE MOZE OBRISATI -------------------------------------
 .options span {
     margin-left: 10px;
     font-weight: 600;
+}*/
+.menu span {
+	margin-left: 10px;
+	font-weight: 600;
+	/* Vanja */
+	font-size: 14px;
 }
- .options div {
-    margin-bottom: 35px;
+.options div {
+	margin-bottom: 35px;
 }
 
 .options div:hover {
