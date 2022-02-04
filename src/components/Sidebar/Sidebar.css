@@ -1,31 +1,36 @@
-
 .menu {
-    max-width: 300px;
-    color: white;
-    display: inline-block;
-    border-right: 2px solid #ffffff;
-    padding-left: 30px;
-    padding-right: 40px;
-    position: absolute;
-    min-height: 100vh;
+	/* max-width: 300px;\ */
+	color: white;
+	display: inline-block;
+	border-right: 2px solid #ffffff;
+	padding-left: 30px;
+	padding-right: 40px;
+	/* position: absolute; */
+	min-height: 100vh;
+
+	/* Vanja */
+	/* position: fixed; */
+	max-width: 270px;
+	background-color: blue; /* Boja mi samo stoji da bih mogao da vidim slova u divu*/
 }
 
 h2 {
-    font-size: 24px;
-    margin-bottom: 25px;
-    margin-top: 25px;
+	font-size: 24px;
+	margin-bottom: 25px;
+	margin-top: 25px;
 }
-span {
-    margin-left: 10px;
-    font-weight: 600;
+.menu span {
+	margin-left: 10px;
+	font-weight: 600;
+	/* Vanja */
+	font-size: 14px;
 }
- .options div {
-    margin-bottom: 35px;
+.options div {
+	margin-bottom: 35px;
 }
 
 .options div:hover {
-    cursor: pointer;
-    color: #0D6EFD;
-    filter: invert(50%) sepia(54%) saturate(6934%) hue-rotate(211deg) brightness(90%) contrast(150%);
-    
+	cursor: pointer;
+	color: #0d6efd;
+	filter: invert(50%) sepia(54%) saturate(6934%) hue-rotate(211deg) brightness(90%) contrast(150%);
 }

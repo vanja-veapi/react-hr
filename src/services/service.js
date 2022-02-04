@@ -4,17 +4,6 @@ class Service {
 	static getAllCompany() {
 		return request({ url: "/api/companies", method: "GET" });
 	}
-	//OVAKO NE RADI
-	// static uploadImage(image) {
-	// 	return request({
-	// 		url: "/api/upload",
-	// 		method: "POST",
-	// 		data: image,
-	// 		headers: {
-	// 			"Content-Type": "multipart/form-data",
-	// 		},
-	// 	});
-	// }
 
 	static createNewProfile = async (data) => {
 		try {
@@ -36,7 +25,6 @@ class Service {
 			console.log(response);
 			return { payload: response.data };
 		} catch (error) {
-			// .data.error
 			return error.response;
 		}
 	};
@@ -52,6 +40,24 @@ class Service {
 			return { payload: response.data };
 		} catch (error) {
 			console.log(error.error);
+			return error;
+		}
+	};
+
+	static fetchUser = async (object) => {
+		console.log("4. service.js");
+		try {
+			const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/profiles?filters[user][id][$eq]=${object.id}&populate=*`);
+			return response;
+		} catch (error) {
+			return error;
+		}
+	};
+	static editUser = async ({ object }, imageId) => {
+		try {
+			const response = await axios.put(`${process.env.REACT_APP_BASEURL}/api/profiles/${object.profileId}`, { data: { name: object.name, profilePhoto: imageId } });
+			return response;
+		} catch (error) {
 			return error;
 		}
 	};

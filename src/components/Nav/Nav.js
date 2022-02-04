@@ -1,8 +1,22 @@
 import React from "react";
 import "./Nav.css";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/actions";
 const Nav = () => {
+	let token = null;
+	if (JSON.parse(localStorage.getItem("userData")) !== null) {
+		token = JSON.parse(localStorage.getItem("userData")).token;
+	}
+
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const handleLogoutUser = () => {
+		dispatch(logout());
+		localStorage.removeItem("userData");
+		setTimeout(navigate("/"), 1000);
+	};
 	return (
 		<div className="nav navbar navbar-expand-lg navbar-light bg-primary shadow">
 			<p className="ps-3">Logo</p>
@@ -11,19 +25,30 @@ const Nav = () => {
 			</button>
 			<div className="navbar-collapse collapse justify-content-end" id="navbarSupportedContent">
 				<ul className="nav mb-2 mb-lg-0">
-					<li className="nav-item">
-						<NavLink to="/join" className="nav-link">
-							Register
-						</NavLink>
-					</li>
+					{!token && (
+						<>
+							<li className="nav-item">
+								<NavLink to="/join" className="nav-link">
+									Register
+								</NavLink>
+							</li>
 
-					<li className="nav-item">
-						<NavLink to="/" className="nav-link">
-							Login
-						</NavLink>
-					</li>
-
-					{/* <li className="p-3">Page 3</li> */}
+							<li className="nav-item">
+								<NavLink to="/" className="nav-link">
+									Login
+								</NavLink>
+							</li>
+						</>
+					)}
+					{token && (
+						<>
+							<li className="nav-item">
+								<NavLink to="/" className="nav-link" onClick={handleLogoutUser}>
+									Logout
+								</NavLink>
+							</li>
+						</>
+					)}
 				</ul>
 			</div>
 		</div>
