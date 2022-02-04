@@ -8,7 +8,7 @@ import * as types from "../store/types";
 
 axios.interceptors.request.use(
 	(config) => {
-		const token = localStorage.getItem("token");
+		const token = JSON.parse(localStorage.getItem("userData")).token;
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`; // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMxLCJpYXQiOjE2NDMwMjIxNjIsImV4cCI6MTY0MzAyOTM2Mn0.5ps7ojZoAEZJUJsGvNwtFJW6BUmaVpbS-FJQiV79x_k
 		}
@@ -33,7 +33,8 @@ export function* registerSaga({ payload: { email, password, username, photo, rol
 
 		// If Company string isn't a number, that means we have to create a new company.
 		if (isNaN(newCompany)) {
-			const companyResponse = yield call(Service.createNewCompany, { name: newCompany, slug: newCompany.toLowerCase() });
+			const slug = newCompany.toLowerCase().replaceAll(" ", "-");
+			const companyResponse = yield call(Service.createNewCompany, { name: newCompany, slug: slug });
 			if (companyResponse.status >= 400) {
 				throw companyResponse;
 			}

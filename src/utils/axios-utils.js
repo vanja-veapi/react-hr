@@ -9,8 +9,12 @@ export const request = ({ ...options }) => {
 	const OnSuccess = (response) => {
 		if (response.data.jwt) {
 			const token = response.data.jwt;
+			const id = response.data.user.id;
+			const userData = { token, id };
 			client.defaults.headers.common.Authoization = `Bearer ${token}`; //Ubaciti token dinamicno umesto stringa token
-			localStorage.setItem("token", token);
+
+			localStorage.setItem("userData", JSON.stringify(userData));
+			// localStorage.setItem("token", token);
 		}
 		return response;
 	};
