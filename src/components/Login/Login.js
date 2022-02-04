@@ -5,7 +5,7 @@ import Register from "../Register/Register";
 import "./Login.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {login, setInitalLoading} from "../../store/actions";
+import {login, setInitalLoading,registerUser} from "../../store/actions";
 import Loader from "../Loader/Loader";
 
 
@@ -27,6 +27,9 @@ const Login = () => {
 	const responseMsg = useSelector((state) => 
 		state.loginReducer.response
 	);
+	console.log(responseMsg);
+	
+	
 	
 	let isLoaded =  useSelector((state) =>
 		state.loadingReducer.loading,

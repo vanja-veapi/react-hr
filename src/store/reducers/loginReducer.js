@@ -5,7 +5,9 @@ const  initialStateLogin = {
     isLoggedIn: false,
     isError: false,
     isLoading: false,
-    response: ""
+    response: "",
+    role: null
+
 }
 
 
@@ -18,9 +20,9 @@ export const loginReducer = (state = initialStateLogin, action) => {
             isLoggedIn: true,
             isError: false,
             isLoading: false,
-            response
-            
+            response,
          };
+         
 		case LOGIN_USER_ERROR:
 			return { ...state,
             isError: true,

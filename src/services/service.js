@@ -55,6 +55,7 @@ class Service {
 			return error;
 		}
 	};
+	
 }
 
 export default Service;
