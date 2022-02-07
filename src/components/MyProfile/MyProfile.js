@@ -1,14 +1,18 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserRequest as fetchProfileRequest, editUserRequest } from "../../store/actions";
+import { fetchUserRequest as fetchProfileRequest, editUserRequest, setInitalLoading } from "../../store/actions";
 
 import noImage from "../../assets/no-image.png";
+import Loader from "../Loader/Loader";
 const MyProfile = () => {
 	const id = JSON.parse(localStorage.getItem("userData")).id;
-	const object = useSelector((state) => state.dataReducer.data?.data[0].attributes); //User Data
-	const profileId = useSelector((state) => state.dataReducer.data?.data[0].id);
-	const imageId = useSelector((state) => state.dataReducer.data?.data[0].attributes?.profilePhoto?.data?.id);
+
+	let isLoadedPage = useSelector((state) => state.loadingReducer.loading);
+	console.log(isLoadedPage);
+	const object = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes); //User Data
+	const profileId = useSelector((state) => state.dataReducer.data?.data[0]?.id);
+	const imageId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.profilePhoto?.data?.id);
 
 	const [user, setUser] = useState(object);
 	const [newImage, setNewImage] = useState(null);
@@ -16,7 +20,8 @@ const MyProfile = () => {
 
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(fetchProfileRequest(id));
+		dispatch(setInitalLoading(true));
+		setTimeout(() => dispatch(fetchProfileRequest(id)), 1000);
 	}, [dispatch, id]);
 	// Ako stavim object u dependeci array, upadam u infiniti loop
 
@@ -60,44 +65,47 @@ const MyProfile = () => {
 		return str === null || str.match(/^ *$/) !== null;
 	};
 	return (
-		<div className="container">
-			<div className="row justify-content-around">
-				<div className="col-md-6 mt-4">
-					<div className="card">
-						<div className="card-header">Basic info</div>
-						<div className="card-body">
-							<div className="form-group mt-2">
-								<label className="h6">Username</label>
-								<input type="text" className="form-control" value={user !== undefined ? user.name : ""} onChange={(e) => setUser({ ...user, name: e.target.value })} />
+		<>
+			{isLoadedPage && <Loader />}
+			<div className="container">
+				<div className="row justify-content-around">
+					<div className="col-md-6 mt-4">
+						<div className="card">
+							<div className="card-header">Basic info</div>
+							<div className="card-body">
+								<div className="form-group mt-2">
+									<label className="h6">Username</label>
+									<input type="text" className="form-control" value={user !== undefined ? user.name : ""} onChange={(e) => setUser({ ...user, name: e.target.value })} />
+								</div>
+								<div className="form-group mt-2">
+									<label className="h6">Profile photo</label>
+									<input type="file" className="form-control mb-3" onChange={(e) => handleFileChange(e)} />
+									{user?.profilePhoto?.data === null || user?.profilePhoto?.data === undefined ? <img src={noImage} alt="User has no img" width="200" className="img-fluid" /> : <img src={user?.profilePhoto.data.attributes.url} alt={user?.profilePhoto.data.attributes.name} className="img-fluid" width={200} />}
+								</div>
 							</div>
-							<div className="form-group mt-2">
-								<label className="h6">Profile photo</label>
-								<input type="file" className="form-control mb-3" onChange={(e) => handleFileChange(e)} />
-								{user?.profilePhoto?.data === null ? <img src={noImage} alt="User has no img" width="300" className="img-fluid" /> : <img src={user?.profilePhoto.data.attributes.url} alt={user?.profilePhoto.data.attributes.name} className="img-fluid" />}
-							</div>
+							<input type="button" value="Save" className="btn btn-primary mt-3 basic-info" onClick={handleEdit} />
 						</div>
-						<input type="button" value="Save" className="btn btn-primary mt-3 basic-info" onClick={handleEdit} />
 					</div>
-				</div>
-				<div className="col-md-6 mt-4">
-					<div className="card">
-						<div className="card-header">Security</div>
-						<div className="card-body">
-							<p>{user !== undefined ? user.user?.data?.attributes.email : ""}</p>
-							<div className="form-group mt-2">
-								<label className="h6">Current password</label>
-								<input type="password" className="form-control" />
+					<div className="col-md-6 mt-4">
+						<div className="card">
+							<div className="card-header">Security</div>
+							<div className="card-body">
+								<p>{user !== undefined ? user.user?.data?.attributes.email : ""}</p>
+								<div className="form-group mt-2">
+									<label className="h6">Current password</label>
+									<input type="password" className="form-control" />
+								</div>
+								<div className="form-group mt-2">
+									<label className="h6">New password</label>
+									<input type="password" className="form-control" />
+								</div>
 							</div>
-							<div className="form-group mt-2">
-								<label className="h6">New password</label>
-								<input type="password" className="form-control" />
-							</div>
+							<input type="button" value="Save" className="btn btn-primary mt-3 password" onClick={handleEdit} />
 						</div>
-						<input type="button" value="Save" className="btn btn-primary mt-3 password" onClick={handleEdit} />
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

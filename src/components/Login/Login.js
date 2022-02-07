@@ -5,10 +5,8 @@ import Register from "../Register/Register";
 import "./Login.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {login, setInitalLoading} from "../../store/actions";
+import { login, setInitalLoading, setInitalState } from "../../store/actions";
 import Loader from "../Loader/Loader";
-
-
 
 const Login = () => {
 	// const statusCode = props.loginReducer?.status;
@@ -24,27 +22,23 @@ const Login = () => {
 	const [isError, setIsError] = useState(false);
 	const dispatch = useDispatch();
 
-	const responseMsg = useSelector((state) => 
-		//state.loginReducer.response
-		state.authReducer.response
+	const responseMsg = useSelector(
+		(state) =>
+			//state.loginReducer.response
+			state.authReducer.response
 	);
 	console.log(responseMsg);
-	
-	
-	
-	let isLoaded =  useSelector((state) =>
-		state.loadingReducer.loading,
-		
-	);
-	
+
+	let isLoaded = useSelector((state) => state.loadingReducer.loading);
+
 	const handleIsLoaded = () => {
 		dispatch(setInitalLoading(!isLoaded));
 	};
-	
+
 	let cssClass = "";
 	let infoMsg = "";
-	if (responseMsg.status === 200) {
-		infoMsg = 'Success! You logged in';
+	if (responseMsg?.status === 200) {
+		infoMsg = "Success! You logged in";
 		cssClass = "alert-success";
 	} else if (responseMsg !== undefined) {
 		if (responseMsg.status >= 400) {
@@ -52,7 +46,7 @@ const Login = () => {
 			infoMsg = responseMsg.data.error.message;
 		}
 	}
-	
+
 	const navigate = useNavigate();
 
 	// useSelectors
@@ -65,16 +59,17 @@ const Login = () => {
 			return;
 		} else {
 			handleIsLoaded();
-			dispatch(login(state.email,state.password));
+			dispatch(login(state.email, state.password));
 		}
-	}
+	};
 
 	useEffect(() => {
 		if (statusCode === 200 && token !== undefined) {
-			console.log("USE EFFECT");
+			// console.log("USE EFFECT");
+			dispatch(setInitalState());
 			navigate("my-profile");
 		}
-	}, [statusCode, token, navigate]);
+	}, [statusCode, token, dispatch, navigate]);
 	return (
 		<div className="wrapper d-flex flex-column justify-content-center align-items-center">
 			{isLoaded && <Loader />}
@@ -114,9 +109,7 @@ const Login = () => {
 					)}
 					<input type="text" value={state.password} name="password" placeholder="Password" onChange={(e) => setState({ ...state, password: e.target.value })} />
 				</div>
-				<div className={infoMsg.length === 0 ? `d-none alert ${cssClass}` : `alert ${cssClass}`}>
-						{infoMsg}
-					</div>
+				<div className={infoMsg.length === 0 ? `d-none alert ${cssClass}` : `alert ${cssClass}`}>{infoMsg}</div>
 				<div className="login-bottom">
 					<NavLink to="/join" element={<Register />}>
 						Don't have an account?
@@ -129,7 +122,5 @@ const Login = () => {
 		</div>
 	);
 };
-
-
 
 export default Login;

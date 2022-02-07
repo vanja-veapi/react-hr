@@ -43,12 +43,12 @@ class Service {
 			return error;
 		}
 	};
-	
 
 	static fetchUser = async (object) => {
-		console.log("4. service.js");
+		// console.log("4. service.js");
 		try {
 			const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/profiles?filters[user][id][$eq]=${object.id}&populate=*`);
+			console.log(response);
 			return response;
 		} catch (error) {
 			return error;

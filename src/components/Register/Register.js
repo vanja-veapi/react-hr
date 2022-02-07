@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, connect } from "react-redux";
-import { registerUser, setInitalLoading, requestAllCompany } from "../../store/actions";
+import { registerUser, setInitalLoading, requestAllCompany, setInitalState } from "../../store/actions";
 import { FaUndo } from "react-icons/fa";
 import Loader from "../Loader/Loader";
 
@@ -10,12 +10,20 @@ const Register = (props) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const companies = props.companies?.data?.data;
+	const statusCode = props.state.authReducer.response === undefined ? 0 : props.state.authReducer.response.status;
+	const token = JSON.parse(localStorage.getItem("userData"))?.token;
+
 	useEffect(() => {
 		dispatch(requestAllCompany());
 	}, [dispatch]);
 
-	const companies = props.companies?.data?.data;
-	const statusCode = props.state.authReducer.response === undefined ? 0 : props.state.authReducer.response.status;
+	useEffect(() => {
+		if (statusCode === 200 && token !== undefined) {
+			dispatch(setInitalState());
+			navigate("/my-profile");
+		}
+	}, [statusCode, token, dispatch, navigate]);
 
 	let isLoadedProp = props.state.loadingReducer.loading === undefined ? false : props.state.loadingReducer.loading;
 
@@ -93,8 +101,8 @@ const Register = (props) => {
 	};
 	const onRegister = () => {
 		let isSuccessRegister = false;
-
-		if (state.username && state.email && state.password && regExEmail.test(state.email) && (state.newCompany !== "" || state.newCompany !== "other") && !isWrongFormat) {
+		if (state.username && state.email && state.password && regExEmail.test(state.email) && state.newCompany && state.newCompany !== "other" && !isWrongFormat) {
+			console.log(state);
 			isSuccessRegister = true;
 			setSubmitRegister(false);
 		} else {
@@ -108,7 +116,6 @@ const Register = (props) => {
 	};
 	return (
 		<div className="wrapper d-flex flex-column justify-content-center align-items-center">
-			{/* {statusCode === 200 ? setTimeout(() => navigate("/my-profile"), 1500) : false} */}
 			{isLoadedProp && <Loader />}
 			<div className="container container-form">
 				<h1>u-Team register</h1>
@@ -150,7 +157,7 @@ const Register = (props) => {
 					<input type="radio" name="role" className="ms-1 role" value={"company_admin"} onChange={(e) => setState({ ...state, role: e.target.value })} />
 				</div>
 				<div className="companies-container">
-					{(state.newCompany === "" || state.newCompany === "other") && submitRegister ? <small className="text-danger">You can't add an empty company</small> : ""}
+					{(state.newCompany === undefined || state.newCompany === "" || state.newCompany === "other") && submitRegister ? <small className="text-danger">You can't add an empty company</small> : ""}
 					<select
 						id="companies"
 						className={isDropdown ? "form-select mb-3" : "d-none"}

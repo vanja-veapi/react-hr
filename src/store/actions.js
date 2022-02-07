@@ -7,11 +7,16 @@ export const registerUser = (user) => {
 		payload: user,
 	};
 };
-// Loader
+// Inital States
 export const setInitalLoading = (value) => {
 	return {
 		type: types.SET_INITAL_LOADING,
 		value,
+	};
+};
+export const setInitalState = () => {
+	return {
+		type: types.SET_INIT_STATE,
 	};
 };
 
@@ -53,7 +58,7 @@ export const logout = () => ({
 
 // Fetching user
 export const fetchUserRequest = (id = null) => {
-	console.log("2. Usao sam u akciju (actions.js)");
+	// console.log("2. Usao sam u akciju (actions.js)");
 	return {
 		id,
 		type: types.FETCH_PROFILE_REQUEST,
@@ -61,7 +66,7 @@ export const fetchUserRequest = (id = null) => {
 };
 
 export const fetchProfileReceive = (user) => {
-	console.log("5. Izlaz (actions.js)");
+	// console.log("5. Izlaz (actions.js)");
 	return {
 		type: types.FETCH_PROFILE_RECEIVE,
 		payload: user,

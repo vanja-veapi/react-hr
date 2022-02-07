@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { put, call } from "redux-saga/effects";
 import AuthService from "../services/auth-service";
 import Service from "../services/service.js";
@@ -51,10 +51,9 @@ export function* registerSaga({ payload: { email, password, username, photo, rol
 	}
 }
 
-
 export function* hendlerLoginSaga(object) {
-	console.log(object)
-	
+	console.log(object);
+
 	console.log(object);
 	try {
 		let response = yield call(AuthService.login, object.payload);
@@ -62,9 +61,8 @@ export function* hendlerLoginSaga(object) {
 		yield put(setInitalLoading(false));
 		if (response.status >= 400) {
 			throw response;
-			
 		}
-		
+
 		yield put({ type: types.SET_LOGIN_USER, response });
 	} catch (error) {
 		yield put({ type: types.LOGIN_USER_ERROR, error });
