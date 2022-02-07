@@ -6,6 +6,8 @@ export const dataReducer = (state = {}, action) => {
 			return { ...state, ...action.payload };
 		case types.FETCH_PROFILE_RECEIVE:
 			return { ...state, ...action.payload };
+		case types.SET_INIT_STATE:
+			return (state = {});
 		default:
 			return state;
 	}
