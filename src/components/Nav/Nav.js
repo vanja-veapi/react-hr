@@ -15,6 +15,7 @@ const Nav = () => {
 	const handleLogoutUser = () => {
 		dispatch(logout());
 		localStorage.removeItem("userData");
+		localStorage.removeItem("companyId");
 		setTimeout(navigate("/"), 1000);
 	};
 	return (
