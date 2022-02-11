@@ -30,7 +30,6 @@ class Service {
 	};
 	static uploadImage = async (image) => {
 		try {
-			console.log(image);
 			const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/upload`, image, {
 				headers: {
 					"Content-Type": "multipart/form-data",
@@ -39,7 +38,6 @@ class Service {
 			console.log(response);
 			return { payload: response.data };
 		} catch (error) {
-			console.log(error.error);
 			return error;
 		}
 	};

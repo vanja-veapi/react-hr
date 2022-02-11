@@ -7,12 +7,17 @@ import noImage from "../../assets/no-image.png";
 import Loader from "../Loader/Loader";
 const MyProfile = () => {
 	const id = JSON.parse(localStorage.getItem("userData")).id;
-
+	console.log(id);
 	let isLoadedPage = useSelector((state) => state.loadingReducer.loading);
-	console.log(isLoadedPage);
+
 	const object = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes); //User Data
 	const profileId = useSelector((state) => state.dataReducer.data?.data[0]?.id);
 	const imageId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.profilePhoto?.data?.id);
+	const companyId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.company.data.id);
+
+	if (companyId !== undefined) {
+		localStorage.setItem("companyId", companyId);
+	}
 
 	const [user, setUser] = useState(object);
 	const [newImage, setNewImage] = useState(null);

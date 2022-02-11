@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import GuestUser from "./components/GuestUser/GuestUser";
 import Login from "./components/Login/Login";
@@ -10,30 +10,38 @@ import Register from "./components/Register/Register";
 
 import MyProfile from "./components/MyProfile/MyProfile";
 import ProtectedRoutes from "./ProtectedRoutes";
-import { useEffect } from "react";
+import CompanyInfo from "./components/CompanyInfo/CompanyInfo";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
+const queryClient = new QueryClient();
 function App() {
 	const token = JSON.parse(localStorage.getItem("userData"))?.token;
 	if (token !== undefined && (window.location.pathname === "/" || window.location.pathname === "/join")) {
 		// Sigurno postoji bolji nacin
+		console.log(token);
 		window.location.replace("/my-profile");
 	}
 	return (
-		<div className="App">
-			<Nav />
-			{/* <Sidebar /> */}
-			<Routes>
-				<Route exact path="/" element={<Login />} />
-				<Route path="/join" element={<Register />} />
+		<QueryClientProvider client={queryClient}>
+			<div className="App">
+				<Nav />
+				{/* <Sidebar /> */}
+				<Routes>
+					<Route exact path="/" element={<Login />} />
+					<Route path="/join" element={<Register />} />
 
-				<Route element={<ProtectedRoutes />}>
-					<Route path="/my-profile" element={<MyProfile />} />
-				</Route>
+					<Route element={<ProtectedRoutes />}>
+						<Route path="/my-profile" element={<MyProfile />} />
+						<Route path="/company-info" element={<CompanyInfo />} />
+					</Route>
 
-				<Route path="/slug" element={<GuestUser />} />
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-		</div>
+					<Route path="/slug" element={<GuestUser />} />
+					<Route path="*" element={<NotFound />} />
+				</Routes>
+			</div>
+			<ReactQueryDevtools initialIsOpen={false} />
+		</QueryClientProvider>
 	);
 }
 
