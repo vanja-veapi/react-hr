@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import Service from "../services/service";
+import Service from "../../services/service";
 
 const id = localStorage.getItem("companyId");
 

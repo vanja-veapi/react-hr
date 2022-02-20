@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-import { useComapnyData, useEditCompanyData } from "../../hooks/useCompanyData";
+import { useComapnyData, useEditCompanyData } from "../../hooks/company/useCompanyData";
 import Loader from "../Loader/Loader";
 import noImage from "../../assets/no-logo.jpeg";
 const CompanyInfo = () => {

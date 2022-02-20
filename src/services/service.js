@@ -4,7 +4,6 @@ class Service {
 	static getAllCompany() {
 		return request({ url: "/api/companies", method: "GET" });
 	}
-
 	static createNewProfile = async (data) => {
 		try {
 			const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/profiles`, {
@@ -16,7 +15,6 @@ class Service {
 			return error;
 		}
 	};
-
 	static createNewCompany = async (data) => {
 		try {
 			const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/companies`, {
@@ -57,6 +55,26 @@ class Service {
 			const response = await axios.put(`${process.env.REACT_APP_BASEURL}/api/profiles/${object.profileId}`, { data: { name: object.name, profilePhoto: imageId } });
 			return response;
 		} catch (error) {
+			return error;
+		}
+	};
+
+	static fetchPendingProfiles = async (id) => {
+		try {
+			const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/profiles?filters[userRole][$eq]=company_user&filters[company][id][$eq]=${id.queryKey[1]}&filters[status]=pending&populate=*`);
+			return response;
+		} catch (error) {
+			return error;
+		}
+	};
+
+	static removeProfile = async (id) => {
+		try {
+			const response = await axios.delete(`${process.env.REACT_APP_BASEURL}/api/profiles/${id}`);
+			console.log(response);
+			return response;
+		} catch (error) {
+			console.log(error);
 			return error;
 		}
 	};

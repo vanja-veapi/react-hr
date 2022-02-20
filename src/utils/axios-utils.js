@@ -25,4 +25,16 @@ export const request = ({ ...options }) => {
 	return client(options).then(OnSuccess).catch(onError);
 };
 
+axios.interceptors.request.use(
+	(config) => {
+		const token = JSON.parse(localStorage.getItem("userData")).token;
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`; // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMxLCJpYXQiOjE2NDMwMjIxNjIsImV4cCI6MTY0MzAyOTM2Mn0.5ps7ojZoAEZJUJsGvNwtFJW6BUmaVpbS-FJQiV79x_k
+		}
+		return config;
+	},
+	(error) => {
+		console.log(error);
+	}
+);
 export default client;
