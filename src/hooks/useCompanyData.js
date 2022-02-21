@@ -4,6 +4,7 @@ import Service from "../services/service";
 
 const id = localStorage.getItem("companyId");
 
+
 const fetchCompany = () => {
 	return axios.get(`${process.env.REACT_APP_BASEURL}/api/companies/${id}?populate=*`);
 };

@@ -52,7 +52,6 @@ export function* registerSaga({ payload: { email, password, username, photo, rol
 }
 
 export function* hendlerLoginSaga(object) {
-	console.log(object);
 
 	console.log(object);
 	try {

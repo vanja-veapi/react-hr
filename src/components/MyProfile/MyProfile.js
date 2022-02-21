@@ -15,6 +15,7 @@ const MyProfile = () => {
 	const imageId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.profilePhoto?.data?.id);
 	const companyId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.company.data.id);
 
+
 	if (companyId !== undefined) {
 		localStorage.setItem("companyId", companyId);
 	}
