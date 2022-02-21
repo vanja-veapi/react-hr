@@ -16,6 +16,7 @@ const Nav = () => {
 		dispatch(logout());
 		localStorage.removeItem("userData");
 		localStorage.removeItem("companyId");
+		localStorage.removeItem("role");
 		setTimeout(navigate("/"), 1000);
 	};
 	return (

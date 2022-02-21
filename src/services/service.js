@@ -47,6 +47,7 @@ class Service {
 		try {
 			const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/profiles?filters[user][id][$eq]=${object.id}&populate=*`);
 			console.log(response);
+			localStorage.setItem("role",response.data.data[0].attributes.userRole);
 			return response;
 		} catch (error) {
 			return error;
