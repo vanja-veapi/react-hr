@@ -1,12 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 
-import { useComapnyData, useEditCompanyData } from "../../hooks/company/useCompanyData";
+import useComapnyData from "../../hooks/company/useCompanyData";
+import useEditCompanyData from "../../hooks/company/useEditCompanyData";
+
 import Loader from "../Loader/Loader";
 import noImage from "../../assets/no-logo.jpeg";
 const CompanyInfo = () => {
 	//58 = id (Dnevnjak)
+	const user = useSelector((state) => state.dataReducer.data.data);
+	const companyId = user[0].attributes.company.data.id;
+	console.log(companyId);
 	const { isLoading, data, isError, error } = useComapnyData();
 	const { mutate: editCompany } = useEditCompanyData();
 
@@ -94,7 +100,7 @@ const CompanyInfo = () => {
 			setMessage("Document is not in valid format!");
 			return setTimeout(() => setCssClass("d-none"), 3000);
 		}
-		editCompany({ name: company, image, isFileSubmited });
+		editCompany({ name: company, image, isFileSubmited, id: companyId });
 		setIsFileSubmited(false);
 	};
 	return (
