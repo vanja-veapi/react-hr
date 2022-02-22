@@ -6,6 +6,7 @@ const id = localStorage.getItem("companyId");
 
 
 const fetchCompany = () => {
+	console.log(id);
 	return axios.get(`${process.env.REACT_APP_BASEURL}/api/companies/${id}?populate=*`);
 };
 

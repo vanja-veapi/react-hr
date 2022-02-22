@@ -37,18 +37,18 @@ const AdminSingleQuestion = (props) => {
         
       });
       
-     // const deleteMutationAnswer = useMutation((id) => {
-        //return axios.delete(`${process.env.REACT_APP_BASEURL}/api/answers/${id}`);
-      //});
+      const deleteMutationAnswer = useMutation((id) => {
+        return axios.delete(`${process.env.REACT_APP_BASEURL}/api/answers/${id}`);
+      });
 
       const handleDelete = (id) => {
-        /*let answers = questionArray[questionArray.findIndex(x => x.id === id)].attributes.answers
+        let answers = questionArray[questionArray.findIndex(x => x.id === id)].attributes.answers
         if(answers.data.length!==0){
           for(let i=0;i<answers.data.length;i++){
             console.log(answers.data[i])
             deleteMutationAnswer.mutate(answers.data[i].id)
           }
-        }*/
+        }
         deleteQuestion.mutate(id);
     }
 
