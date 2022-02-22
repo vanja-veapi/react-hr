@@ -1,4 +1,5 @@
 .loading {
+	transition: 0.1s ease;
 	position: absolute;
 	top: 0;
 	z-index: 99;
@@ -6,6 +7,8 @@
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.6);
 	position: fixed;
+	animation-name: fade-in;
+	animation-duration: 2s;
 }
 .loading > .overlay {
 	max-width: 300px;
@@ -17,7 +20,29 @@
 	margin: 20% auto;
 	text-align: center;
 	background-image: url(https://c.tenor.com/tEBoZu1ISJ8AAAAC/spinning-loading.gif);
+	animation-name: slide-down;
+	animation-duration: 2s;
 }
 .overlay > p:nth-child(1) {
 	margin-top: 150px;
+}
+
+@keyframes fade-in {
+	from {
+		background-color: rgba(255, 255, 255, 0);
+	}
+	to {
+		background-color: rgba(0, 0, 0, 0.6);
+	}
+}
+
+@keyframes slide-down {
+	from {
+		transform: translateY(-200px);
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+		transform: translate(0);
+	}
 }

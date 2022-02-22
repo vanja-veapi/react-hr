@@ -1,0 +1,32 @@
+.cards.row {
+	--bs-gutter-x: unset;
+}
+.card-right .btn-warning {
+	border-radius: 30px;
+}
+.pending.btn {
+	cursor: default;
+	pointer-events: none;
+}
+.card-left > .card-title {
+	margin-bottom: unset;
+}
+.card-left p small {
+	font-size: 0.9em;
+}
+.font-button {
+	font-size: 14px;
+}
+.question {
+	border-bottom: 1px solid #ced4da;
+}
+@media screen and (max-width: 1046px) {
+	.font-button {
+		font-size: 12px;
+	}
+}
+@media screen and (max-width: 992px) {
+	.font-button {
+		font-size: 14px;
+	}
+}

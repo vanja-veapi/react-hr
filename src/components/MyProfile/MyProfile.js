@@ -10,30 +10,38 @@ const MyProfile = () => {
 	console.log(id);
 	let isLoadedPage = useSelector((state) => state.loadingReducer.loading);
 
-	const object = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes); //User Data
+	const userObject = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes); //User Data
 	const profileId = useSelector((state) => state.dataReducer.data?.data[0]?.id);
 	const imageId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.profilePhoto?.data?.id);
-	const companyId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.company.data.id);
+	const companyId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.company.data?.id);
 
 
 	if (companyId !== undefined) {
 		localStorage.setItem("companyId", companyId);
 	}
 
-	const [user, setUser] = useState(object);
+	const [user, setUser] = useState(userObject);
 	const [newImage, setNewImage] = useState(null);
 	const [isWrongFormat, setIsWrongFormat] = useState(false);
 
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(setInitalLoading(true));
-		setTimeout(() => dispatch(fetchProfileRequest(id)), 1000);
-	}, [dispatch, id]);
+		if (userObject) {
+			// dispatch(fetchProfileRequest(userObject.user.data.id));
+			console.log(userObject);
+		}
+	}, [userObject]);
+	// [dispatch, id]
+	//Umesto dispatch i id, staviti object
 	// Ako stavim object u dependeci array, upadam u infiniti loop
+	useEffect(() => {
+		dispatch(setInitalLoading(true));
+		dispatch(fetchProfileRequest(id));
+	}, []);
 
 	useEffect(() => {
-		setUser(object);
-	}, [setUser, object]);
+		setUser(userObject);
+	}, [setUser, userObject]);
 
 	const handleEdit = (e) => {
 		//Ona mi je bitna da bih mogao da usmerim funkciju da l je izmena u username ili passworda
