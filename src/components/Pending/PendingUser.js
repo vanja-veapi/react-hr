@@ -7,8 +7,10 @@ import Loader from "../Loader/Loader";
 
 import "../Elements/Cards/Card.css";
 import "./Pending.css";
+import Questions from "../Elements/Question/Questions";
 const PendingUser = () => {
 	let isLoadedPage = useSelector((state) => state.loadingReducer.loading);
+	const answers = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes.answers?.data);
 	const params = useParams();
 	return (
 		<>
@@ -29,18 +31,7 @@ const PendingUser = () => {
 					<div className="col-12 col-md-6">
 						<div className="card">
 							<div className="card-header">Answers</div>
-							<div className="card-body">
-								<div className="questions">
-									<div className="question mt-3">
-										<h6>Question 1 - Do you have a pet</h6>
-										<p className="form-control mt-3">Yes, I have a dog, his name is Milutin</p>
-									</div>
-									<div className="question mt-3">
-										<h6>Question 2 - Which city do you Live in</h6>
-										<p className="form-control mt-3">Novi Sad</p>
-									</div>
-								</div>
-							</div>
+							<div className="card-body">{answers.length === 0 ? <h6>User has no answer</h6> : <Questions answers={answers} />}</div>
 						</div>
 					</div>
 				</div>

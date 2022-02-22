@@ -28,6 +28,7 @@ class Service {
 	};
 	static uploadImage = async (image) => {
 		try {
+			// client umesto axios
 			const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/upload`, image, {
 				headers: {
 					"Content-Type": "multipart/form-data",
