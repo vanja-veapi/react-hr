@@ -7,7 +7,6 @@ import usePendingProfiles from "../../hooks/profiles/usePendingProfiles";
 const Pending = () => {
 	const pendingProfiles = usePendingProfiles();
 	const profiles = pendingProfiles?.data?.data?.data;
-
 	return (
 		<>
 			{pendingProfiles.status === "loading" ? <Loader /> : true}
@@ -17,7 +16,7 @@ const Pending = () => {
 				<div className="container-fluid">
 					<div className="cards row mt-5">
 						{profiles?.map((profile) => (
-							<Card key={profile.id} id={profile.id} name={profile.attributes.name} status={profile.attributes.status} profilePhoto={profile.attributes.profilePhoto?.data} date={profile.attributes.createdAt} userId={profile.attributes.user.data?.id} />
+							<Card key={profile.id} profileId={profile.id} name={profile.attributes.name} status={profile.attributes.status} profilePhoto={profile.attributes.profilePhoto?.data} date={profile.attributes.createdAt} userId={profile.attributes.user.data?.id} />
 						))}
 					</div>
 				</div>

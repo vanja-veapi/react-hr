@@ -9,7 +9,7 @@ class Service {
 			const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/profiles`, {
 				data: data,
 			});
-			console.log(response);
+			// console.log(response);
 			return { payload: response.data };
 		} catch (error) {
 			return error;
@@ -34,7 +34,7 @@ class Service {
 					"Content-Type": "multipart/form-data",
 				},
 			});
-			console.log(response);
+			// console.log(response);
 			return { payload: response.data };
 		} catch (error) {
 			return error;
@@ -45,8 +45,12 @@ class Service {
 		// console.log("4. service.js");
 		try {
 			const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/profiles?filters[user][id][$eq]=${object.id}&populate=*`);
-			console.log(response);
-			localStorage.setItem("role",response.data.data[0].attributes.userRole);
+			// console.log(response);
+
+			// VANJA IZMENE
+			if (object.role === "company_user") {
+				localStorage.setItem("role", response.data.data[0].attributes.userRole);
+			}
 			return response;
 		} catch (error) {
 			return error;
@@ -70,9 +74,17 @@ class Service {
 		}
 	};
 
-	static removeProfile = async (id) => {
+	static approveProfile = async (profileId) => {
 		try {
-			const response = await axios.delete(`${process.env.REACT_APP_BASEURL}/api/profiles/${id}`);
+			const response = await axios.put(`${process.env.REACT_APP_BASEURL}/api/profiles/${profileId}?populate=*`, { data: { status: "published" } });
+			return response;
+		} catch (error) {
+			return error;
+		}
+	};
+	static removeProfile = async (profileId) => {
+		try {
+			const response = await axios.delete(`${process.env.REACT_APP_BASEURL}/api/profiles/${profileId}`);
 			console.log(response);
 			return response;
 		} catch (error) {

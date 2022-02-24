@@ -7,14 +7,13 @@ import noImage from "../../assets/no-image.png";
 import Loader from "../Loader/Loader";
 const MyProfile = () => {
 	const id = JSON.parse(localStorage.getItem("userData")).id;
-	console.log(id);
 	let isLoadedPage = useSelector((state) => state.loadingReducer.loading);
 
+	const status = useSelector((state) => state.dataReducer.status);
 	const userObject = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes); //User Data
 	const profileId = useSelector((state) => state.dataReducer.data?.data[0]?.id);
 	const imageId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.profilePhoto?.data?.id);
 	const companyId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.company.data?.id);
-
 
 	if (companyId !== undefined) {
 		localStorage.setItem("companyId", companyId);
@@ -25,22 +24,24 @@ const MyProfile = () => {
 	const [isWrongFormat, setIsWrongFormat] = useState(false);
 
 	const dispatch = useDispatch();
-	useEffect(() => {
-		if (userObject) {
-			// dispatch(fetchProfileRequest(userObject.user.data.id));
-			console.log(userObject);
-		}
-	}, [userObject]);
-	// [dispatch, id]
+	// useEffect(() => {
+	// 	if (userObject) {
+	// 		dispatch(fetchProfileRequest(userObject.user.data.id));
+	// 		console.log("User object useeffect");
+	// 		console.log(2);
+	// 	}
+	// }, [userObject.user.data.id]);
+	// [dispatch, id];
 	//Umesto dispatch i id, staviti object
 	// Ako stavim object u dependeci array, upadam u infiniti loop
 	useEffect(() => {
 		dispatch(setInitalLoading(true));
-		dispatch(fetchProfileRequest(id));
-	}, []);
+		setTimeout(() => dispatch(fetchProfileRequest(id)), 4000); //Interval je 4sekunde da bi se prihatila i slika
+	}, [dispatch, id]);
 
 	useEffect(() => {
 		setUser(userObject);
+		console.log(1);
 	}, [setUser, userObject]);
 
 	const handleEdit = (e) => {

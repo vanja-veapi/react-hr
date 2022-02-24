@@ -34,12 +34,16 @@ function App() {
 		window.location.replace("/my-profile");
 	}
 
-	let userRole = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes.userRole);
-	if (!userRole) {
-		userRole = localStorage.getItem("role");
-	}
+	//Vanja - IZMENE
+	//Sa ovim nacinom sidebar se ne uctiva odmah, tek nakon refersha
+	let userRole = localStorage.getItem("role");
+	// let userRole = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes.userRole);
+	// if (!userRole) {
+	// 	console.log(!userRole);
+	// 	userRole = localStorage.getItem("role");
+	// }
 
-	console.log("Rola iz App", userRole);
+	// console.log("Rola iz App", userRole);
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -61,11 +65,11 @@ function App() {
 						<Route path="/new-question" element={userRole === "company_admin" ? <AdminAddQuestion /> : <Navigate to="*" />} />
 						{/*<Route path="/edit-question" element={userRole === 'company_admin'? (<AdminSingleQuestion />) : (<Navigate to="*"/>)} />*/}
 						<Route path="/edit-question" element={userRole === "company_admin" ? <AdminEditQuestion /> : <Navigate to="*" />} />
-						<Route path="/my-profile" element={<MyProfile />} />
-						<Route path="*" element={<NotFound />} />
-						<Route path="/company-info" element={<CompanyInfo />} />
-						<Route path="/team/pending" element={<Pending />} />
-						<Route exact path={`/team/pending/:pendingId/edit`} element={<PendingUser />} />
+						{/* <Route path="/my-profile" element={<MyProfile />} /> */}
+						{/* <Route path="*" element={<NotFound />} /> */}
+						{/* <Route path="/company-info" element={<CompanyInfo />} /> */}
+						<Route path="/team/pending" element={userRole === "company_admin" ? <Pending /> : <Navigate to="*" />} />
+						<Route path="/team/pending/:pendingId/edit" element={userRole === "company_admin" ? <PendingUser /> : <Navigate to="*" />} />
 					</Route>
 				</Routes>
 			</div>

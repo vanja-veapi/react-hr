@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Card.css";
-
+import { useNavigate } from "react-router-dom";
 import NoImage from "../../../assets/no-image.png";
 
 import { BsTrash } from "react-icons/bs";
@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import useRemoveProfile from "../../../hooks/profiles/useRemoveProfile";
 const Card = (props) => {
 	const date = new Date(props.date);
+	const navigate = useNavigate();
 
 	const getOrdinal = (n) => {
 		return n + (n > 0 ? ["th", "st", "nd", "rd"][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : "");
@@ -17,6 +18,15 @@ const Card = (props) => {
 
 	const ordinalDate = getOrdinal(date.toLocaleString("default", { day: "numeric" }));
 	const pendingLink = `/team/pending/${props.userId}/edit`;
+
+	const { mutate: removeProfile } = useRemoveProfile();
+	const handleRemoveProfile = (ev) => {
+		// const card = ev.currentTarget.parentElement.parentElement.parentElement.parentElement;
+		// card.remove();
+
+		removeProfile(props.profileId);
+		navigate("/team/pending");
+	};
 	return (
 		<div className="card col-md-10 mb-md-3 col-lg-4 m-lg-3 mb-3">
 			<div className="overflow-hidden pending-img">
@@ -38,10 +48,11 @@ const Card = (props) => {
 				</div>
 				<div className="card-buttons my-3 mx-4">
 					<div className="row d-lg-grid">
+						{/* Details has userId */}
 						<Link to={pendingLink} id={props.userId} className="font-button btn btn-primary col-md-12">
 							Details <FcViewDetails className="d-none d-sm-inline-block" />
 						</Link>
-						<button id={props.id} onClick={useRemoveProfile} className="font-button btn btn-danger col-md-12">
+						<button id={props.profileId} onClick={handleRemoveProfile} className="font-button btn btn-danger col-md-12">
 							Delete <BsTrash className="d-none d-sm-inline-block" />
 						</button>
 					</div>

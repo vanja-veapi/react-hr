@@ -57,10 +57,11 @@ export const logout = () => ({
 });
 
 // Fetching user
-export const fetchUserRequest = (id = null) => {
+export const fetchUserRequest = (id = null, role = "company_user") => {
 	// console.log("2. Usao sam u akciju (actions.js)");
 	return {
 		id,
+		role,
 		type: types.FETCH_PROFILE_REQUEST,
 	};
 };

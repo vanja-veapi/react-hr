@@ -12,7 +12,7 @@ const CompanyInfo = () => {
 	//58 = id (Dnevnjak)
 	const user = useSelector((state) => state.dataReducer.data.data);
 	const companyId = user[0].attributes.company.data.id;
-	console.log(companyId);
+
 	const { isLoading, data, isError, error } = useComapnyData();
 	const { mutate: editCompany } = useEditCompanyData();
 

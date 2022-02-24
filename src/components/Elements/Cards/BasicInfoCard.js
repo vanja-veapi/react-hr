@@ -5,20 +5,22 @@ import { fetchUserRequest as fetchProfileRequest, setInitalLoading } from "../..
 import noImage from "../../../assets/no-image.png";
 
 const BasicInfoCard = (props) => {
-	const object = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes);
+	const userObject = useSelector((state) => state.dataReducer?.data?.data[0]?.attributes);
+	// console.log(userObject);
+	// console.log(userObject); //Vraca i rolu koju menja u APP.jsu
 	// const imageId = useSelector((state) => state.dataReducer.data?.data[0]?.attributes?.profilePhoto?.data?.id);
-	const [user, setUser] = useState(object);
+	const [user, setUser] = useState(userObject);
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(setInitalLoading(true));
-		setTimeout(() => dispatch(fetchProfileRequest(props.id)), 1000);
-	}, [dispatch, props.id]);
+	// useEffect(() => {
+	// 	dispatch(setInitalLoading(true));
+	// 	setTimeout(() => dispatch(fetchProfileRequest(props.id, "company_admin")), 1000); //OVO UBACITI U PENDING USER KAD SE KORISNIK APPROVUJE...
+	// }, [dispatch, props.id]);
 
 	useEffect(() => {
-		setUser(object);
-	}, [setUser, object]);
+		setUser(userObject);
+	}, [setUser, userObject]);
 
 	return (
 		<div className="col-md-6">
