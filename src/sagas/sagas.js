@@ -1,31 +1,8 @@
-import axios from "axios";
+
 import { put, call } from "redux-saga/effects";
 import Service from "../services/service";
 import { recevieAllCompany, fetchProfileReceive, editUserResponse, setInitalLoading } from "../store/actions";
-import jwt_decode from "jwt-decode";
 
-axios.interceptors.request.use(
-	(config) => {
-		const token = JSON.parse(localStorage.getItem("userData")).token;
-		// console.log(token);
-		if (token) {
-			let decodedToken = jwt_decode(token);
-			let currentDate = new Date();
-			if (decodedToken.exp * 1000 < currentDate.getTime()) {
-				localStorage.removeItem("userData");
-				console.log("Token expired.");
-				return (window.location.href = "/");
-			} else {
-				config.headers.Authorization = `Bearer ${token}`;
-				// console.log("Valid token.");
-			}
-		}
-		return config;
-	},
-	(error) => {
-		Promise.reject(error);
-	}
-);
 
 export function* getAllCompanySaga() {
 	try {

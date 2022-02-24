@@ -16,7 +16,7 @@ import AdminQuestionsDisplay from "./components/Questions/AdminQuestions/AdminQu
 import AdminAddQuestion from "./components/Questions/AdminQuestions/AdminAddQuestion";
 import AdminEditQuestion from "./components/Questions/AdminQuestions/AdminEditQuestion";
 import { useSelector } from "react-redux";
-import AdminSingleQuestion from "./components/Questions/AdminQuestions/AdminSingleQuestion";
+
 
 const queryClient = new QueryClient();
 
@@ -57,7 +57,6 @@ function App() {
 						<Route path="/questions-admin" element={ userRole === 'company_admin'? (<AdminQuestionsDisplay />) : (<Navigate to="*"/>)} />
 						<Route path="/company-info" element={userRole === 'company_admin'? (<CompanyInfo />) : (<Navigate to="*"/>)} />
 						<Route path="/new-question" element={userRole === 'company_admin'? (<AdminAddQuestion />) : (<Navigate to="*"/>)} />
-						{/*<Route path="/edit-question" element={userRole === 'company_admin'? (<AdminSingleQuestion />) : (<Navigate to="*"/>)} />*/}
 						<Route path="/edit-question" element={userRole === 'company_admin'? (<AdminEditQuestion />) : (<Navigate to="*"/>)} />
 						<Route path="/my-profile" element={<MyProfile />} />
 						<Route path="*" element={<NotFound/>}/>

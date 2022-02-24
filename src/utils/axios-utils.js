@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 
 
@@ -27,6 +28,29 @@ export const request = ({ ...options }) => {
 
 	return client(options).then(OnSuccess).catch(onError);
 };
+
+axios.interceptors.request.use(
+	(config) => {
+		const token = JSON.parse(localStorage.getItem("userData")).token;
+		
+		if (token) {
+			let decodedToken = jwt_decode(token);
+			let currentDate = new Date();
+			if (decodedToken.exp * 1000 < currentDate.getTime()) {
+				localStorage.removeItem("userData");
+				console.log("Token expired.");
+				return (window.location.href = "/");
+			} else {
+				config.headers.Authorization = `Bearer ${token}`;
+				
+			}
+		}
+		return config;
+	},
+	(error) => {
+		Promise.reject(error);
+	}
+);
 
 
 export default client;

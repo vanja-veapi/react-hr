@@ -51,6 +51,7 @@ const UserQuestionsDisplay = () => {
 		  }
 		  
 	}
+	
 
 	const getImage = async (e) => {
 		const image = e.target.files[0];
@@ -63,7 +64,7 @@ const UserQuestionsDisplay = () => {
 				"Content-Type": "multipart/form-data",
 			}
 		}).then( async (res)=> {
-			
+			console.log("Uspesno ubacena slika");
 			const answerImg = res.data[0].formats.thumbnail.url;
 			await axios.post(`${process.env.REACT_APP_BASEURL}/api/answers`, {
 			data: {
@@ -71,6 +72,8 @@ const UserQuestionsDisplay = () => {
 				question: e.target.name,
 				profile: userId
 			}
+		}).then(()=> {
+			console.log("Uspesno ubacena slika u odg");
 		})
 		});
 		

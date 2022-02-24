@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import {useQuery} from 'react-query'
 
 export const getCompanyQuestions = async (id) => {
-    const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/questions?filters[company][id][$eq]=${id.queryKey[1]}&populate=*`);
+    const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/questions?filters[company][id][$eq]=${id.queryKey[1]}&sort=order:asc&populate[answers][populate]=*`);
     return response;
     
 }

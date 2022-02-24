@@ -55,10 +55,10 @@ const AdminAddQuestion = () => {
       );
       
       const AddQuestion = (event) => {
-        event.preventDefault();
         const data = { data: questionDetails };
         mutation.mutate(data);
         console.log(data);
+        
       };
      
       useEffect(() => {
